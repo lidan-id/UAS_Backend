@@ -47,7 +47,7 @@ app.post("/bikes", (req, res) => {
     "INSERT INTO bikes (nama, brand, kategori, harga) VALUES (?, ?, ?, ?)";
   const values = [nama, brand, kategori, harga];
 
-  db.run(q, values, function (err) {
+  db.run(q, values, (err) => {
     if (err) {
       res.status(500).json({ error: err.message });
       return;
@@ -72,5 +72,4 @@ app.post("/bikes", (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on PORT ${PORT}`);
-  console.log(`tes`);
 });

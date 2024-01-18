@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="container">
     <button
       data-target="modal-js-example"
-      class="button js-modal-trigger is-info"
+      class="button js-modal-trigger is-link is-focused"
       @click="openModal"
     >
-      add bike
+      click here to add bike
     </button>
 
     <div
@@ -26,11 +26,12 @@
         </header>
         <section class="modal-card-body">
           <div class="field">
-            <label class="label">Name</label>
+            <label class="label" for="nama">Name</label>
             <div class="control">
               <input
+                id="nama"
                 v-model="bikeName"
-                class="input"
+                class="input has-text-centered"
                 type="text"
                 placeholder="Bike name"
                 required
@@ -39,11 +40,12 @@
           </div>
 
           <div class="field">
-            <label class="label">Brand</label>
+            <label class="label" for="brand">Brand</label>
             <div class="control">
               <input
+                id="brand"
                 v-model="bikeBrand"
-                class="input"
+                class="input has-text-centered"
                 type="text"
                 placeholder="Bike brand"
                 required
@@ -52,10 +54,10 @@
           </div>
 
           <div class="field">
-            <label class="label">Category</label>
+            <label class="label" for="cate">Category</label>
             <div class="control">
               <div class="select">
-                <select v-model="bikeCategory" required>
+                <select v-model="bikeCategory" id="cate" required>
                   <option>Mountain Bikes</option>
                   <option>Road Bikes</option>
                   <option>Dual-Sport Bikes</option>
@@ -66,11 +68,12 @@
           </div>
 
           <div class="field">
-            <label class="label">Price</label>
+            <label class="label" for="harga">Price</label>
             <div class="control">
               <input
+                id="harga"
                 v-model="bikePrice"
-                class="input"
+                class="input has-text-centered"
                 type="number"
                 min="1"
                 placeholder="per hour"

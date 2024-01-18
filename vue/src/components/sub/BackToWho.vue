@@ -11,7 +11,7 @@
       </button>
     </div>
 
-    <div class="modal" :class="{ 'is-active': modalActive }">
+    <div class="modal is-fullwidth" :class="{ 'is-active': modalActive }">
       <div class="modal-background" @click="closeModal"></div>
       <div class="modal-card">
         <header class="modal-card-head has-background-black-ter">

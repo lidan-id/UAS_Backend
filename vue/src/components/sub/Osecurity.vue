@@ -1,39 +1,31 @@
 <template>
   <div class="hero-head">
     <header class="navbar container navbar-brand">
-      <BackToWHO />
+      <BackToWho />
       <div class="navbar-item is-family-code has-text-grey">Admin MODE</div>
-      <div class="navbar-item navbar-end">
-        <AddBike />
-      </div>
     </header>
   </div>
 
-  <div class="hero-body">
-    <component :is="currentView" />
-  </div>
+  <nav class="is-fullwidth tabs is-boxed mb-3">
+    <div class="container">
+      <ul class="is-size-5">
+        <li :class="{ 'is-active': isActive('/') }">
+          <a href="#/">Bikes</a>
+        </li>
+        <li :class="{ 'is-active': isActive('/custlist') }">
+          <a href="#/custlist">Customers</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
-  <div class="hero-foot">
-    <nav class="tabs is-boxed is-fullwidth">
-      <div class="container">
-        <ul class="is-size-4">
-          <li :class="{ 'is-active': isActive('/') }">
-            <a href="#/">Bikes</a>
-          </li>
-          <li :class="{ 'is-active': isActive('/custlist') }">
-            <a href="#/custlist">Customers</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </div>
+  <component :is="currentView" />
 </template>
 <script setup>
 import { ref, computed } from "vue";
 import Obikes from "../sub/Obikes.vue";
 import Ocustomers from "../sub/Ocustomers.vue";
-import BackToWHO from "./BackToWho.vue";
-import AddBike from "./AddBike.vue";
+import BackToWho from "./BackToWho.vue";
 
 // Router same page
 const routes = {

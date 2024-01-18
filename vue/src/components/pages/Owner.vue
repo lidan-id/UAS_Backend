@@ -35,6 +35,6 @@ const verifyPin = () => {
     alert("Wrong! Who are you?");
     return;
   }
-  router.push("/check");
+  router.push("/owner");
 };
 </script>
