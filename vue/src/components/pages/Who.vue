@@ -6,7 +6,7 @@
         @click="goTo('/customer')"
         class="block button is-white is-large is-fullwidth"
       >
-        CUSTOMER
+        CUSTOMERhaiii
       </button>
       <button
         @click="goTo('/owner')"
