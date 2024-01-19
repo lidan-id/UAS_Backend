@@ -34,6 +34,7 @@
                 class="input has-text-centered"
                 type="text"
                 placeholder="Bike name"
+                autocomplete="off"
                 required
               />
             </div>
@@ -48,6 +49,7 @@
                 class="input has-text-centered"
                 type="text"
                 placeholder="Bike brand"
+                autocomplete="off"
                 required
               />
             </div>
