@@ -1,6 +1,6 @@
 <template>
   <div class="container has-text-centered">
-    <AddBike /> Total Bikes: {{ theList.length }}
+    <AddBike /> TOTAL BIKE(s): {{ theList.length }}
   </div>
   <div class="hero-body">
     <div class="columns is-multiline is-flex is-justify-content-center">
@@ -12,10 +12,10 @@
 </template>
 
 <script setup>
-import axios from "axios";
 import { ref, onMounted } from "vue";
 import AddBike from "./AddBike.vue";
 import BikeCard from "./BikeCard.vue";
+import axios from "axios";
 
 const theList = ref([]);
 
