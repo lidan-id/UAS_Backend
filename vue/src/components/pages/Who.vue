@@ -9,7 +9,7 @@
         CUSTOMERhaiii
       </button>
       <button
-        @click="goTo('/owner')"
+        @click="goTo('/check')"
         class="block button is-white is-large is-fullwidth"
       >
         ADMIN | OWNER
