@@ -1,9 +1,9 @@
 <template>
   <div class="container has-text-centered">
-    <AddBike /> TOTAL BIKE(s): {{ theList.length }}
+    <AddBike /> AVAILABLE BIKE(s): {{ theList.length }}
   </div>
   <div class="hero-body">
-    <div class="columns is-multiline is-flex is-justify-content-center">
+    <div class="columns is-multiline is-flex is-justify-content-space-evenly">
       <div v-for="item in theList">
         <BikeCard :item="item" />
       </div>

@@ -26,7 +26,7 @@
         <EditBike :item="item" />
         <a
           @click="deleteItem"
-          class="is-size-7 card-footer-item button is-danger"
+          class="is-size-7 card-footer-item button is-dark is-hovered"
         >
           DELETE</a
         >

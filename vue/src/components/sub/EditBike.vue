@@ -2,7 +2,7 @@
   <div>
     <a
       @click="openEditModal"
-      class="is-size-7 card-footer-item button is-warning"
+      class="is-size-7 card-footer-item button is-white"
     >
       EDIT
     </a>
