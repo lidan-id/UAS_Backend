@@ -19,7 +19,7 @@
       </div>
       <div class="modal-card-body has-background-dark">
         <input
-          v-model="inputValue"
+          v-model="waktu"
           class="input is-size-5 is-rounded is-focused has-text-centered"
           type="number"
           min="1"
@@ -28,7 +28,7 @@
           required
         />
         <div class="select is-size-5 is-rounded is-fullwidth">
-          <select v-model="selectedUnit" required>
+          <select v-model="jangka" required>
             <option>hour(s)</option>
             <option>day(s)</option>
           </select>
@@ -94,22 +94,21 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 
 const theList = ref([]);
-const inputValue = ref(1);
-const selectedUnit = ref("hour(s)");
-const selectedBike = ref(null);
+const waktu = ref(1);
+const jangka = ref("hour(s)");
+const pilihan = ref(null);
 
 const calculatePrice = () => {
-  const selectedBikeValue = selectedBike.value;
+  const selectedBikeValue = pilihan.value;
 
   if (selectedBikeValue) {
     const bikePrice =
       theList.value.find((bike) => bike.id === selectedBikeValue.id)?.harga ||
       0;
-    const multiplier = selectedUnit.value === "hour(s)" ? 1 : 24;
-    return inputValue.value * bikePrice * multiplier;
-  } else {
-    return 0;
+    const total_harga = jangka.value === "hour(s)" ? 1 : 24;
+    return waktu.value * bikePrice * total_harga;
   }
+  return 0;
 };
 onMounted(async () => {
   try {
@@ -121,26 +120,29 @@ onMounted(async () => {
   }
 });
 
+const rentBikes = async () => {
+  try {
+    await axios.delete(`http://localhost:3000/bikes/${pilihan.value.id}`);
+    alert(`TOTAL PRICE: $${calculatePrice()}`);
+    closeNotification();
+    window.location.reload();
+    theList.value = theList.value.filter(
+      (bike) => bike.id !== pilihan.value.id
+    );
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const isNotificationVisible = ref(false);
 
 const showNotification = (bike) => {
-  selectedBike.value = bike;
+  pilihan.value = bike;
   isNotificationVisible.value = true;
 };
 
 const closeNotification = () => {
-  selectedBike.value = null;
+  pilihan.value = null;
   isNotificationVisible.value = false;
 };
-
-const rentBikes = () => {
-  alert(calculatePrice());
-  closeNotification();
-  window.location.reload();
-};
 </script>
-
-<!-- Tambah endpoint untuk get dan post data customer dan harga 
-Delete Selected Bike
-Pindah Cbikes dan perbaiki router 
-Who Page-->

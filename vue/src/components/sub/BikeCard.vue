@@ -47,7 +47,7 @@ const deleteItem = async () => {
     window.location.reload();
     theList.splice(theList.indexOf(item), 1);
   } catch (error) {
-    console.error("Error deleting item:", error);
+    console.error(error);
   }
 };
 </script>
