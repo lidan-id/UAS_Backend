@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 
 const bikesAdmin = require("./routers/bikesadmin");
-
+const authorization = require("./routers/authorization");
 app.use(express.json());
 app.use(cors());
 const sqlite3 = require("sqlite3");
@@ -20,9 +20,10 @@ app.use((req, res, next) => {
         harga INTEGER
       )
     `);
+
     req.db = db;
-    next();
   });
+  next();
 });
 
 // Tabel customers
@@ -34,7 +35,7 @@ app.use((req, res, next) => {
 //   )
 // `);
 app.use(bikesAdmin);
-
+app.use(authorization);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on PORT ${PORT}`);
