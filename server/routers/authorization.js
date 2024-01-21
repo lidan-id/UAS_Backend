@@ -5,6 +5,9 @@ const jwt = require("jsonwebtoken");
 const path = require("path");
 const { Sequelize, DataTypes } = require("sequelize");
 const SECRET_KEY = "keren";
+const util = require("util");
+const { decode } = require("punycode");
+const signAsync = util.promisify(jwt.sign);
 const sequelize = new Sequelize({
   dialect: "sqlite",
   storage: path.join(__dirname, "test.db"),
@@ -61,17 +64,17 @@ async function findCustomer(username) {
     return;
   }
 }
-async function findAll() {
-  try {
-    await sequelize.sync();
-    const customer = await Customer.findAll();
-    return customer;
-  } catch (error) {
-    console.error("Error:", error);
-    return;
-  }
-}
-async function CheckCustomer(username, password) {
+// async function findAll() {
+//   try {
+//     await sequelize.sync();
+//     const customer = await Customer.findAll();
+//     return customer;
+//   } catch (error) {
+//     console.error("Error:", error);
+//     return;
+//   }
+// }
+async function CheckCustomerGetToken(username, password) {
   try {
     await sequelize.sync();
     const customer = await Customer.findOne({
@@ -86,34 +89,67 @@ async function CheckCustomer(username, password) {
     if (!match) {
       return false;
     }
-    customer.token = "";
     const payload = {
       username: username,
       password: customer.password,
     };
-    jwt.sign(payload, SECRET_KEY, (err, token) => {
-      console.log("pertama");
-      if (err) {
-        res.status(500).send("Ada masalah dengan server");
-        return;
+    const token = await signAsync(payload, SECRET_KEY, { expiresIn: "1h" });
+    await Customer.update(
+      { token: token },
+      {
+        where: {
+          username: username,
+        },
       }
-      customer.token = token;
-      console.log("ini token", token);
-      console.log("ini password", customer.password);
-      return token;
-    });
+    );
+    return token;
   } catch (error) {
     console.error("Error:", error);
     return;
   }
 }
+async function checkIsCustomer(username, password) {
+  try {
+    await sequelize.sync();
+    const customer = await Customer.findOne({
+      where: {
+        username: username,
+        password: password,
+      },
+    });
+    if (customer === null) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error:", error);
+    return;
+  }
+}
+router.post("/checkToken", async (req, res) => {
+  const token = req.headers.token;
+  jwt.verify(token, SECRET_KEY, async (err, decoded) => {
+    if (err) {
+      res.send(false);
+    }
+    const IsCustomer = await checkIsCustomer(
+      decoded.username,
+      decoded.password
+    );
+    if (IsCustomer) {
+      res.send(true);
+      return;
+    }
+    res.send(false);
+  });
+});
 router.post("/login", async (req, res) => {
   const username = req.body.username._value;
   const password = req.body.password._value;
-  const isCustomer = await CheckCustomer(username, password);
-  console.log("ini", isCustomer);
-  //   const customers = await findAll();
-  //   console.log(customers);
+  const customerToken = await CheckCustomerGetToken(username, password);
+  res.send(customerToken);
+  // const customers = await findAll();
+  // console.log(customers);
 });
 router.post("/register", async (req, res) => {
   const saltRounds = 10;
@@ -135,3 +171,16 @@ router.post("/register", async (req, res) => {
   });
 });
 module.exports = router;
+
+// async function signToken() {
+//   return jwt.sign(payload, SECRET_KEY, async (err, token) => {
+//     console.log("pertama");
+//     if (err) {
+//       res.status(500).send("Ada masalah dengan server");
+//       return;
+//     }
+//     customer.token = token;
+//     console.log("ini token", token);
+//     console.log("ini password", customer.password);
+//   });
+// }

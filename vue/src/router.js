@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import Home from "./components/pages/Home.vue";
 import Login from "./components/pages/Login.vue";
 import Register from "./components/pages/Register.vue";
 import Customer from "./components/pages/Customer.vue";
@@ -6,7 +7,8 @@ import Owner from "./components/pages/Owner.vue";
 import OsecurityVue from "./components/sub/Osecurity.vue";
 
 const routes = [
-  { path: "/", component: Login },
+  { path: "/", component: Home },
+  { path: "/login", component: Login },
   { path: "/Register", component: Register },
   { path: "/customer", component: Customer },
   { path: "/owner", component: OsecurityVue },
